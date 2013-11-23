@@ -1,0 +1,3 @@
+# ignoring agda compiled files
+
+*.agdai

@@ -1,0 +1,593 @@
+\documentclass{article}
+\usepackage{a4}
+\usepackage{palatino}
+\usepackage{natbib}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{upgreek}
+\usepackage{url}
+
+
+\DeclareMathAlphabet{\mathkw}{OT1}{cmss}{bx}{n}
+
+\usepackage{color}
+\newcommand{\redFG}[1]{\textcolor[rgb]{0.6,0,0}{#1}}
+\newcommand{\greenFG}[1]{\textcolor[rgb]{0,0.4,0}{#1}}
+\newcommand{\blueFG}[1]{\textcolor[rgb]{0,0,0.8}{#1}}
+\newcommand{\orangeFG}[1]{\textcolor[rgb]{0.8,0.4,0}{#1}}
+\newcommand{\purpleFG}[1]{\textcolor[rgb]{0.4,0,0.4}{#1}}
+\newcommand{\yellowFG}[1]{\textcolor{yellow}{#1}}
+\newcommand{\brownFG}[1]{\textcolor[rgb]{0.5,0.2,0.2}{#1}}
+\newcommand{\blackFG}[1]{\textcolor[rgb]{0,0,0}{#1}}
+\newcommand{\whiteFG}[1]{\textcolor[rgb]{1,1,1}{#1}}
+\newcommand{\yellowBG}[1]{\colorbox[rgb]{1,1,0.2}{#1}}
+\newcommand{\brownBG}[1]{\colorbox[rgb]{1.0,0.7,0.4}{#1}}
+
+\newcommand{\ColourStuff}{
+  \newcommand{\red}{\redFG}
+  \newcommand{\green}{\greenFG}
+  \newcommand{\blue}{\blueFG}
+  \newcommand{\orange}{\orangeFG}
+  \newcommand{\purple}{\purpleFG}
+  \newcommand{\yellow}{\yellowFG}
+  \newcommand{\brown}{\brownFG}
+  \newcommand{\black}{\blackFG}
+  \newcommand{\white}{\whiteFG}
+}
+
+\newcommand{\MonochromeStuff}{
+  \newcommand{\red}{\blackFG}
+  \newcommand{\green}{\blackFG}
+  \newcommand{\blue}{\blackFG}
+  \newcommand{\orange}{\blackFG}
+  \newcommand{\purple}{\blackFG}
+  \newcommand{\yellow}{\blackFG}
+  \newcommand{\brown}{\blackFG}
+  \newcommand{\black}{\blackFG}
+  \newcommand{\white}{\blackFG}
+}
+
+\ColourStuff
+
+
+\newcommand{\M}[1]{\mathsf{#1}}
+\newcommand{\D}[1]{\blue{\mathsf{#1}}}
+\newcommand{\C}[1]{\red{\mathsf{#1}}}
+\newcommand{\F}[1]{\green{\mathsf{#1}}}
+\newcommand{\V}[1]{\purple{\mathit{#1}}}
+\newcommand{\T}[1]{\raisebox{0.02in}{\tiny\green{\textsc{#1}}}}
+
+\newcommand{\us}[1]{\_\!#1\!\_}
+
+%% ODER: format ==         = "\mathrel{==}"
+%% ODER: format /=         = "\neq "
+%
+%
+\makeatletter
+\@ifundefined{lhs2tex.lhs2tex.sty.read}%
+  {\@namedef{lhs2tex.lhs2tex.sty.read}{}%
+   \newcommand\SkipToFmtEnd{}%
+   \newcommand\EndFmtInput{}%
+   \long\def\SkipToFmtEnd#1\EndFmtInput{}%
+  }\SkipToFmtEnd
+
+\newcommand\ReadOnlyOnce[1]{\@ifundefined{#1}{\@namedef{#1}{}}\SkipToFmtEnd}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\DeclareFontFamily{OT1}{cmtex}{}
+\DeclareFontShape{OT1}{cmtex}{m}{n}
+  {<5><6><7><8>cmtex8
+   <9>cmtex9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmtex10}{}
+\DeclareFontShape{OT1}{cmtex}{m}{it}
+  {<-> ssub * cmtt/m/it}{}
+\newcommand{\texfamily}{\fontfamily{cmtex}\selectfont}
+\DeclareFontShape{OT1}{cmtt}{bx}{n}
+  {<5><6><7><8>cmtt8
+   <9>cmbtt9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmbtt10}{}
+\DeclareFontShape{OT1}{cmtex}{bx}{n}
+  {<-> ssub * cmtt/bx/n}{}
+\newcommand{\tex}[1]{\text{\texfamily#1}}	% NEU
+
+\newcommand{\Sp}{\hskip.33334em\relax}
+
+
+\newcommand{\Conid}[1]{\mathit{#1}}
+\newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\anonymous}{\kern0.06em \vbox{\hrule\@width.5em}}
+\newcommand{\plus}{\mathbin{+\!\!\!+}}
+\newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
+\newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
+\newcommand{\sequ}{\mathbin{>\!\!\!>}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\usepackage{polytable}
+
+%mathindent has to be defined
+\@ifundefined{mathindent}%
+  {\newdimen\mathindent\mathindent\leftmargini}%
+  {}%
+
+\def\resethooks{%
+  \global\let\SaveRestoreHook\empty
+  \global\let\ColumnHook\empty}
+\newcommand*{\savecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\savecolumns[#1]}}
+\newcommand*{\restorecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\restorecolumns[#1]}}
+\newcommand*{\aligncolumn}[2]%
+  {\g@addto@macro\ColumnHook{\column{#1}{#2}}}
+
+\resethooks
+
+\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\commentbeginchars}{\enskip\{-}
+\newcommand{\commentendchars}{-\}\enskip}
+
+\newcommand{\visiblecomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \let\commentbegin=\commentbeginchars
+  \let\commentend=\commentendchars}
+
+\newcommand{\invisiblecomments}{%
+  \let\onelinecomment=\empty
+  \let\commentbegin=\empty
+  \let\commentend=\empty}
+
+\visiblecomments
+
+\newlength{\blanklineskip}
+\setlength{\blanklineskip}{0.66084ex}
+
+\newcommand{\hsindent}[1]{\quad}% default is fixed indentation
+\let\hspre\empty
+\let\hspost\empty
+\newcommand{\NB}{\textbf{NB}}
+\newcommand{\Todo}[1]{$\langle$\textbf{To do:}~#1$\rangle$}
+
+\EndFmtInput
+\makeatother
+%
+%
+%
+%
+%
+%
+% This package provides two environments suitable to take the place
+% of hscode, called "plainhscode" and "arrayhscode". 
+%
+% The plain environment surrounds each code block by vertical space,
+% and it uses \abovedisplayskip and \belowdisplayskip to get spacing
+% similar to formulas. Note that if these dimensions are changed,
+% the spacing around displayed math formulas changes as well.
+% All code is indented using \leftskip.
+%
+% Changed 19.08.2004 to reflect changes in colorcode. Should work with
+% CodeGroup.sty.
+%
+\ReadOnlyOnce{polycode.fmt}%
+\makeatletter
+
+\newcommand{\hsnewpar}[1]%
+  {{\parskip=0pt\parindent=0pt\par\vskip #1\noindent}}
+
+% can be used, for instance, to redefine the code size, by setting the
+% command to \small or something alike
+\newcommand{\hscodestyle}{}
+
+% The command \sethscode can be used to switch the code formatting
+% behaviour by mapping the hscode environment in the subst directive
+% to a new LaTeX environment.
+
+\newcommand{\sethscode}[1]%
+  {\expandafter\let\expandafter\hscode\csname #1\endcsname
+   \expandafter\let\expandafter\endhscode\csname end#1\endcsname}
+
+% "compatibility" mode restores the non-polycode.fmt layout.
+
+\newenvironment{compathscode}%
+  {\par\noindent
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed\)%
+   \par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\compaths}{\sethscode{compathscode}}
+
+% "plain" mode is the proposed default.
+% It should now work with \centering.
+% This required some changes. The old version
+% is still available for reference as oldplainhscode.
+
+\newenvironment{plainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newenvironment{oldplainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+% Here, we make plainhscode the default environment.
+
+\newcommand{\plainhs}{\sethscode{plainhscode}}
+\newcommand{\oldplainhs}{\sethscode{oldplainhscode}}
+\plainhs
+
+% The arrayhscode is like plain, but makes use of polytable's
+% parray environment which disallows page breaks in code blocks.
+
+\newenvironment{arrayhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\parray}%
+  {\endparray\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newcommand{\arrayhs}{\sethscode{arrayhscode}}
+
+% The mathhscode environment also makes use of polytable's parray 
+% environment. It is supposed to be used only inside math mode 
+% (I used it to typeset the type rules in my thesis).
+
+\newenvironment{mathhscode}%
+  {\parray}{\endparray}
+
+\newcommand{\mathhs}{\sethscode{mathhscode}}
+
+% texths is similar to mathhs, but works in text mode.
+
+\newenvironment{texthscode}%
+  {\(\parray}{\endparray\)}
+
+\newcommand{\texths}{\sethscode{texthscode}}
+
+% The framed environment places code in a framed box.
+
+\def\codeframewidth{\arrayrulewidth}
+\RequirePackage{calc}
+
+\newenvironment{framedhscode}%
+  {\parskip=\abovedisplayskip\par\noindent
+   \hscodestyle
+   \arrayrulewidth=\codeframewidth
+   \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
+   \hline\framedhslinecorrect\\{-1.5ex}%
+   \let\endoflinesave=\\
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \framedhslinecorrect\endoflinesave{.5ex}\hline
+   \endtabular
+   \parskip=\belowdisplayskip\par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\framedhslinecorrect}[2]%
+  {#1[#2]}
+
+\newcommand{\framedhs}{\sethscode{framedhscode}}
+
+% The inlinehscode environment is an experimental environment
+% that can be used to typeset displayed code inline.
+
+\newenvironment{inlinehscode}%
+  {\(\def\column##1##2{}%
+   \let\>\undefined\let\<\undefined\let\\\undefined
+   \newcommand\>[1][]{}\newcommand\<[1][]{}\newcommand\\[1][]{}%
+   \def\fromto##1##2##3{##3}%
+   \def\nextline{}}{\) }%
+
+\newcommand{\inlinehs}{\sethscode{inlinehscode}}
+
+% The joincode environment is a separate environment that
+% can be used to surround and thereby connect multiple code
+% blocks.
+
+\newenvironment{joincode}%
+  {\let\orighscode=\hscode
+   \let\origendhscode=\endhscode
+   \def\endhscode{\def\hscode{\endgroup\def\@currenvir{hscode}\\}\begingroup}
+   %\let\SaveRestoreHook=\empty
+   %\let\ColumnHook=\empty
+   %\let\resethooks=\empty
+   \orighscode\def\hscode{\endgroup\def\@currenvir{hscode}}}%
+  {\origendhscode
+   \global\let\hscode=\orighscode
+   \global\let\endhscode=\origendhscode}%
+
+\makeatother
+\EndFmtInput
+%
+
+
+
+\newcommand{\nudge}[1]{\marginpar{\footnotesize #1}}
+
+
+
+\parskip 0.1in
+\parindent 0in
+
+\begin{document}
+   \title{Type safe renaming and substitution for simple typed $\lambda$-calculus}
+
+   \author{Rodrigo Ribeiro}
+
+   \maketitle
+
+I resolved to implement this in Agda as a way to:
+\begin{itemize}
+  \item Learn how to use lhs2TeX with literate Agda code a la McBride.
+  \item Study this draft of McBride in order to develop things in Agda latter!
+\end{itemize}
+
+The first point here is the definition of types. We will consider types just
+formed by some base type and arrow's:
+
+   
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathkw{data}\;\D{Ty}\;\mathbin{:}\;\D{Set}\;\mathkw{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\C{\upiota}\;{}\<[9]%
+\>[9]{}\mathbin{:}\;\D{Ty}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\_\!\C{\rhd}\!\_\;\mathbin{:}\;\D{Ty}\;\blue{\rightarrow}\;\D{Ty}\;\blue{\rightarrow}\;\D{Ty}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathkw{infixr}\;\V{5}\;\_\!\C{\rhd}\!\_{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Next, we need contexts to hold type information for terms in DeBruijn notation.
+Contexts are just snoc-lists of types.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathkw{data}\;\D{Cx}\;\mathbin{:}\;\D{Set}\;\mathkw{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\C{\mathcal{E}}\;{}\<[8]%
+\>[8]{}\mathbin{:}\;\D{Cx}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\anonymous \!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\anonymous \;\mathbin{:}\;\D{Cx}\;\blue{\rightarrow}\;\D{Ty}\;\blue{\rightarrow}\;\D{Cx}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathkw{infixl}\;\V{4}\;\anonymous \!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\anonymous {}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Now, DeBruijn indexes are just context membership evidence!
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{41}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathkw{data}\;\us{\D{\in}}\;(\V{\tau}\;\mathbin{:}\;\D{Ty})\;\mathbin{:}\;\D{Cx}\;\blue{\rightarrow}\;\D{Set}\;\mathkw{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\V{here}\;{}\<[9]%
+\>[9]{}\mathbin{:}\;\mathkw{forall}\;\{\mskip1.5mu \V{\Gamma}\mskip1.5mu\}\;{}\<[41]%
+\>[41]{}\blue{\rightarrow}\;\V{\tau}\;\D{\in}\;\V{\Gamma}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\tau}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\V{there}\;\mathbin{:}\;\mathkw{forall}\;\{\mskip1.5mu \V{\Gamma}\;\V{\sigma}\mskip1.5mu\}\;\blue{\rightarrow}\;\V{\tau}\;\D{\in}\;\V{\Gamma}\;\blue{\rightarrow}\;\V{\tau}\;\D{\in}\;\V{\Gamma}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\sigma}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathkw{infix}\;\V{3}\;\us{\D{\in}}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+That done, we can build well typed terms by writing syntax-directed
+rules for the typing judgment.
+
+\newcommand{\negs}{\hspace*{ -0.3in}}
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{10}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{14}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{33}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{37}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathkw{data}\;\us{\D{\vdash}}\;(\V{\Gamma}\;\mathbin{:}\;\D{Cx})\;\mathbin{:}\;\D{Ty}\;\blue{\rightarrow}\;\D{Set}\;\mathkw{where}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\C{var}\;\mathbin{:}\;{}\<[10]%
+\>[10]{}\mathkw{forall}\;\{\mskip1.5mu \V{\tau}\mskip1.5mu\}{}\<[E]%
+\\
+\>[10]{}\blue{\rightarrow}\;{}\<[14]%
+\>[14]{}\V{\tau}\;\D{\in}\;\V{\Gamma}{}\<[E]%
+\\
+\>[10]{}\mbox{\onelinecomment   \negs -------------}{}\<[E]%
+\\
+\>[10]{}\blue{\rightarrow}\;{}\<[14]%
+\>[14]{}\V{\Gamma}\;\D{\vdash}\;\V{\tau}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\C{lam}\;\mathbin{:}\;{}\<[10]%
+\>[10]{}\mathkw{forall}\;\{\mskip1.5mu \V{\sigma}\;\V{\tau}\mskip1.5mu\}{}\<[E]%
+\\
+\>[10]{}\blue{\rightarrow}\;{}\<[14]%
+\>[14]{}\V{\Gamma}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\sigma}\;\D{\vdash}\;\V{\tau}{}\<[E]%
+\\
+\>[10]{}\mbox{\onelinecomment   \negs ------------------}{}\<[E]%
+\\
+\>[10]{}\blue{\rightarrow}\;{}\<[14]%
+\>[14]{}\V{\Gamma}\;\D{\vdash}\;\V{\sigma}\;\C{\rhd}\;\V{\tau}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\C{app}\;\mathbin{:}\;{}\<[10]%
+\>[10]{}\mathkw{forall}\;\{\mskip1.5mu \V{\sigma}\;\V{\tau}\mskip1.5mu\}{}\<[E]%
+\\
+\>[10]{}\blue{\rightarrow}\;{}\<[14]%
+\>[14]{}\V{\Gamma}\;\D{\vdash}\;\V{\sigma}\;\C{\rhd}\;\V{\tau}\;{}\<[33]%
+\>[33]{}\blue{\rightarrow}\;{}\<[37]%
+\>[37]{}\V{\Gamma}\;\D{\vdash}\;\V{\sigma}{}\<[E]%
+\\
+\>[10]{}\mbox{\onelinecomment   \negs -------------------------------}{}\<[E]%
+\\
+\>[10]{}\blue{\rightarrow}\;{}\<[14]%
+\>[14]{}\V{\Gamma}\;\D{\vdash}\;\V{\tau}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathkw{infix}\;\V{3}\;\us{\D{\vdash}}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Now, I can start the real business here: definition of substitution and renaming operations.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{14}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\F{Ren}\;\mathbin{:}\;\D{Cx}\;\blue{\rightarrow}\;\D{Cx}\;\blue{\rightarrow}\;\D{Set}{}\<[E]%
+\\
+\>[B]{}\F{Ren}\;\V{\Gamma}\;\V{\Delta}\;{}\<[14]%
+\>[14]{}\mathrel{=}\;\mathkw{forall}\;\{\mskip1.5mu \V{\tau}\mskip1.5mu\}\;\blue{\rightarrow}\;\V{\tau}\;\D{\in}\;\V{\Gamma}\;\blue{\rightarrow}\;\V{\tau}\;\D{\in}\;\V{\Delta}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\F{Sub}\;\mathbin{:}\;\D{Cx}\;\blue{\rightarrow}\;\D{Cx}\;\blue{\rightarrow}\;\D{Set}{}\<[E]%
+\\
+\>[B]{}\F{Sub}\;\V{\Gamma}\;\V{\Delta}\;{}\<[14]%
+\>[14]{}\mathrel{=}\;\mathkw{forall}\;\{\mskip1.5mu \V{\tau}\mskip1.5mu\}\;\blue{\rightarrow}\;\V{\tau}\;\D{\in}\;\V{\Gamma}\;\blue{\rightarrow}\;\V{\Delta}\;\D{\vdash}\;\V{\tau}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+The main issue when using DeBruijn indexes is the problematic (and boring...) index shift when
+context grows at each abstraction.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{18}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\V{\char95 <><\char95 }\;\mathbin{:}\;\D{Cx}\;\blue{\rightarrow}\;\V{List}\;\D{Ty}\;\blue{\rightarrow}\;\D{Cx}{}\<[E]%
+\\
+\>[B]{}\V{xz}\;\V{<><}\;\V{<>}\;{}\<[18]%
+\>[18]{}\mathrel{=}\;\V{xz}{}\<[E]%
+\\
+\>[B]{}\V{xz}\;\V{<><}\;(\V{x},\V{xs})\;{}\<[18]%
+\>[18]{}\mathrel{=}\;\V{xz}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{x}\;\V{<><}\;\V{xs}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mathkw{infixl}\;\V{4}\;\V{\char95 <><\char95 }{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+We may then define the \emph{shiftable} simultaneous substitutions
+from \ensuremath{\V{\Gamma}} to \ensuremath{\V{\Delta}}
+as type-preserving mappings from the variables in any extension of \ensuremath{\V{\Gamma}} to
+terms in the same extension of \ensuremath{\V{\Delta}}.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\F{Shub}\;\mathbin{:}\;\D{Cx}\;\blue{\rightarrow}\;\D{Cx}\;\blue{\rightarrow}\;\D{Set}{}\<[E]%
+\\
+\>[B]{}\F{Shub}\;\V{\Gamma}\;\V{\Delta}\;\mathrel{=}\;\mathkw{forall}\;\V{\Xi}\;\blue{\rightarrow}\;\F{Sub}\;(\V{\Gamma}\;\V{<><}\;\V{\Xi})\;(\V{\Delta}\;\V{<><}\;\V{\Xi}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+By the computational behaviour of \ensuremath{\V{<><}}, a \ensuremath{\F{Shub}\;\V{\Gamma}\;\V{\Delta}} can be used
+as a \ensuremath{\F{Shub}\;(\V{\Gamma}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\sigma})\;(\V{\Delta}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\sigma})}, so we can push substitutions under
+binders very easily.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{22}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\us{\F{/\!\!/}}\;\mathbin{:}\;\mathkw{forall}\;\{\mskip1.5mu \V{\Gamma}\;\V{\Delta}\mskip1.5mu\}\;(\V{\theta}\;\mathbin{:}\;\F{Shub}\;\V{\Gamma}\;\V{\Delta})\;\{\mskip1.5mu \V{\tau}\mskip1.5mu\}\;\blue{\rightarrow}\;\V{\Gamma}\;\D{\vdash}\;\V{\tau}\;\blue{\rightarrow}\;\V{\Delta}\;\D{\vdash}\;\V{\tau}{}\<[E]%
+\\
+\>[B]{}\V{\theta}\;\F{/\!\!/}\;\C{var}\;\V{i}\;{}\<[22]%
+\>[22]{}\mathrel{=}\;\V{\theta}\;\V{<>}\;\V{i}{}\<[E]%
+\\
+\>[B]{}\V{\theta}\;\F{/\!\!/}\;\C{lam}\;\{\mskip1.5mu \V{\sigma}\mskip1.5mu\}\;\V{t}\;{}\<[22]%
+\>[22]{}\mathrel{=}\;\C{lam}\;((\V{λ}\;\V{\Xi}\;\V{→}\;\V{\theta}\;(\V{\sigma},\V{\Xi}))\;\F{/\!\!/}\;\V{t}){}\<[E]%
+\\
+\>[B]{}\V{\theta}\;\F{/\!\!/}\;\C{app}\;\V{f}\;\V{s}\;{}\<[22]%
+\>[22]{}\mathrel{=}\;\C{app}\;(\V{\theta}\;\F{/\!\!/}\;\V{f})\;(\V{\theta}\;\F{/\!\!/}\;\V{s}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Of course, we shall need to construct some of these joyous shubstitutions.
+Let us first show that any simultaneous renaming can be made shiftable by
+iterative weakening.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{16}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{18}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\F{wkr}\;\mathbin{:}\;{}\<[8]%
+\>[8]{}\mathkw{forall}\;\{\mskip1.5mu \V{\Gamma}\;\V{\Delta}\;\V{\sigma}\mskip1.5mu\}\;\blue{\rightarrow}\;\F{Ren}\;\V{\Gamma}\;\V{\Delta}\;\blue{\rightarrow}\;\F{Ren}\;(\V{\Gamma}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\sigma})\;(\V{\Delta}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\sigma}){}\<[E]%
+\\
+\>[B]{}\F{wkr}\;\V{r}\;\V{here}\;{}\<[16]%
+\>[16]{}\mathrel{=}\;\V{here}{}\<[E]%
+\\
+\>[B]{}\F{wkr}\;\V{r}\;(\V{there}\;\V{i})\;{}\<[18]%
+\>[18]{}\mathrel{=}\;\V{there}\;(\V{r}\;\V{i}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\F{ren}\;\mathbin{:}\;{}\<[8]%
+\>[8]{}\mathkw{forall}\;\{\mskip1.5mu \V{\Gamma}\;\V{\Delta}\mskip1.5mu\}\;\blue{\rightarrow}\;\F{Ren}\;\V{\Gamma}\;\V{\Delta}\;\blue{\rightarrow}\;\F{Shub}\;\V{\Gamma}\;\V{\Delta}{}\<[E]%
+\\
+\>[B]{}\F{ren}\;\V{r}\;\V{<>}\;{}\<[18]%
+\>[18]{}\mathrel{=}\;\V{λ}\;\{\mskip1.5mu \V{\tau}\mskip1.5mu\}\;\V{z}\;\V{→}\;\C{var}\;(\V{r}\;\V{z}){}\<[E]%
+\\
+\>[B]{}\F{ren}\;\V{r}\;(\anonymous ,\V{\Xi})\;{}\<[18]%
+\>[18]{}\mathrel{=}\;\F{ren}\;(\F{wkr}\;\V{r})\;\V{\Xi}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+With renaming available, we can play the same game for substitutions.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{16}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{18}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\F{wks}\;\mathbin{:}\;{}\<[8]%
+\>[8]{}\mathkw{forall}\;\{\mskip1.5mu \V{\Gamma}\;\V{\Delta}\;\V{\sigma}\mskip1.5mu\}\;\blue{\rightarrow}\;\F{Sub}\;\V{\Gamma}\;\V{\Delta}\;\blue{\rightarrow}\;\F{Sub}\;(\V{\Gamma}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\sigma})\;(\V{\Delta}\;\!\raisebox{ -0.09in}[0in][0in]{\red{\textsf{`}}\,}\;\V{\sigma}){}\<[E]%
+\\
+\>[B]{}\F{wks}\;\V{s}\;\V{here}\;{}\<[16]%
+\>[16]{}\mathrel{=}\;\C{var}\;\V{here}{}\<[E]%
+\\
+\>[B]{}\F{wks}\;\V{s}\;(\V{there}\;\V{i})\;{}\<[18]%
+\>[18]{}\mathrel{=}\;\F{ren}\;\V{there}\;\F{/\!\!/}\;\V{s}\;\V{i}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\F{sub}\;\mathbin{:}\;{}\<[8]%
+\>[8]{}\mathkw{forall}\;\{\mskip1.5mu \V{\Gamma}\;\V{\Delta}\mskip1.5mu\}\;\blue{\rightarrow}\;\F{Sub}\;\V{\Gamma}\;\V{\Delta}\;\blue{\rightarrow}\;\F{Shub}\;\V{\Gamma}\;\V{\Delta}{}\<[E]%
+\\
+\>[B]{}\F{sub}\;\V{s}\;\V{<>}\;{}\<[18]%
+\>[18]{}\mathrel{=}\;\V{s}{}\<[E]%
+\\
+\>[B]{}\F{sub}\;\V{s}\;(\anonymous ,\V{\Xi})\;{}\<[18]%
+\>[18]{}\mathrel{=}\;\F{sub}\;(\F{wks}\;\V{s})\;\V{\Xi}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\end{document}
